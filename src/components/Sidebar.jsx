@@ -48,12 +48,7 @@ export default function Sidebar({
             {gameState === "check" && (
               <p className="text-yellow-600 dark:text-yellow-300">Skak!</p>
             )}
-            {gameState === "checkmate" && (
-              <p className="text-red-600 dark:text-red-300">Skakmat.</p>
-            )}
-            {gameState === "stalemate" && (
-              <p className="text-blue-600 dark:text-blue-300">Stalemate.</p>
-            )}
+            {/* The ResultModal will now handle showing the final game state */}
           </div>
         )}
       </div>

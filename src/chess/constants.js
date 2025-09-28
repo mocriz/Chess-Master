@@ -1,9 +1,10 @@
 export const AI_LEVELS = {
-  beginner: { name: "Pemula", elo: "800-1200", depth: 2 },
-  intermediate: { name: "Menengah", elo: "1200-1600", depth: 3 },
-  advanced: { name: "Mahir", elo: "1600-2000", depth: 3 },
-  master: { name: "Master", elo: "2000+", depth: 4 },
+  beginner:     { name: 'Pemula',      elo: '800–1200',  maxDepth: 3, thinkMs: 300 },
+  intermediate: { name: 'Menengah',    elo: '1200–1600', maxDepth: 4, thinkMs: 600 },
+  advanced:     { name: 'Mahir',       elo: '1600–2000', maxDepth: 5, thinkMs: 1000 },
+  master:       { name: 'Master',      elo: '2000+',     maxDepth: 6, thinkMs: 1500 },
 };
+
 
 export const PIECE_SYMBOLS = {
   white: { king: "♔", queen: "♕", rook: "♖", bishop: "♗", knight: "♘", pawn: "♙" },

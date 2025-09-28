@@ -50,7 +50,6 @@ export default function ChessBoard({
     const toY   = trect.top - crect.top + trect.height/2;
 
     setFAnim({ symbol: PIECE_SYMBOLS[piece.color][piece.piece], from:{x:fromX,y:fromY}, to:{x:toX,y:toY} });
-
     const timer = setTimeout(()=> setFAnim(null), 320);
     return ()=> clearTimeout(timer);
   }, [animateKey]);
@@ -62,7 +61,7 @@ export default function ChessBoard({
         <div className="grid grid-cols-8 grid-rows-8 gap-[2px] w-full h-full p-1 md:p-2 bg-amber-100 rounded-xl shadow-inner select-none touch-none">
           {Array.from({ length: 8 }).map((_, vr) => (
             Array.from({ length: 8 }).map((__, vc) => {
-              const [r,c] = viewToModel(vr,vc);
+              const [r,c] = viewToModel(vr,vc);        // r,c = KOORDINAT MODEL (sudah benar)
               const cell = board[r][c];
               const isLight = (vr + vc) % 2 === 0;
               const last = moveHistory[moveHistory.length - 1];
@@ -80,14 +79,23 @@ export default function ChessBoard({
                   ${isValid?" ring-2 ring-green-400":""}
                   ${isLast?" bg-yellow-300":""}
                   hover:brightness-110`}
-                  onClick={() => onSquareClick(r,c)}
-                  onDragOver={(e)=>e.preventDefault()}
-                  onDrop={(e)=>onDrop(e,r,c)}
+                  onClick={() => {
+                    if (disabled) return;
+                    onSquareClick(r, c);               // langsung kirim r,c (TANPA flip ulang)
+                  }}
+                  onDragOver={(e)=> e.preventDefault()}
+                  onDrop={(e) => {
+                    if (disabled) return;
+                    onDrop(e, r, c);                   // langsung kirim r,c
+                  }}
                 >
                   {cell && (
                     <div
                       draggable={!disabled && cell.color===currentPlayer}
-                      onDragStart={(e)=>onDragStart(e,r,c)}
+                      onDragStart={(e)=>{               // drag hanya di bidaknya
+                        if (disabled) return;
+                        onDragStart(e, r, c);          // langsung kirim r,c
+                      }}
                       className={`transition-transform duration-200 ${!disabled && cell.color===currentPlayer?"cursor-move":"cursor-pointer"} hover:scale-110`}
                     >
                       {PIECE_SYMBOLS[cell.color][cell.piece]}
